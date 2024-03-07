@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filament List</title>
+    <link rel="stylesheet" href="{% static 'filamentManager/index.css' %}">
+</head>
+<body>
+    <h1>Filament List</h1>
+    {% if filament_list %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Material</th>
+                    <th>Colour</th>
+                    <th>Brand</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for filament in filament_list %}
+                    <tr>
+                        <td>{{ filament.material }}</td>
+                        <td>{{ filament.colour }}</td>
+                        <td>{{ filament.brand }}</td>
+                        <td><a href="{% url 'detail' filament.id %}">{{ "more info" }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No filaments are available.</p>
+    {% endif %}
+</body>
+</html>

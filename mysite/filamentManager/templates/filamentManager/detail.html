@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filament Detail</title>
+    <link rel="stylesheet" href="{% static 'filamentManager/detail.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Filament Detail</h1>
+        {% if filament %}
+            <div class="detail-info">
+                <p><strong>Material:</strong> {{ filament.material }}</p>
+                <p><strong>Colour:</strong> {{ filament.colour }}</p>
+                <p><strong>Brand:</strong> {{ filament.brand }}</p>
+                <p><strong>Weight:</strong> {{ filament.weight }} grams</p>
+                <p><strong>Price:</strong> €{{ filament.price }}</p>
+                <p><strong>Print Temperature:</strong> {{ filament.print_temperature }}°C</p>
+                <p><strong>Bed Temperature:</strong> {{ filament.bed_temperature }}°C</p>
+                <p><strong>Flow:</strong> {{ filament.flow }}</p>
+                <p><strong>Max Flowrate:</strong> {{ filament.max_flowrate }}</p>
+                <p><strong>K Value:</strong> {{ filament.k_value }}</p>
+                <p><strong>Purchase Date:</strong> {{ filament.purchase_date }}</p>
+            </div>
+            
+            <body>
+                <div id="back-to-filament">
+                    <button onclick="goBack()">Back to Filament</button>
+                </div>
+            
+                <script>
+                    function goBack() {
+                        window.location.href = '/filament';
+                    }
+                </script>
+            </body>
+
+            <div class="comment-form">
+                <h2>Add a Comment:</h2>
+                <form method="post" action="{% url 'add_comment' filament.id %}">
+                    {% csrf_token %}
+                    <textarea name="comment_text" rows="4" cols="50"></textarea><br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+            
+            <div class="comment-list">
+                <h2>Comments:</h2>
+                {% for comment in filament.comment_set.all %}
+                    <p>{{ comment.comment_text }}</p>
+                {% empty %}
+                    <p>No comments yet.</p>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No filament found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
